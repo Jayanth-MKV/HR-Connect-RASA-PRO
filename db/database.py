@@ -21,6 +21,7 @@ class HRDatabase:
                 "manager": "Alex Chen",
                 "is_new_employee": True,
                 "join_date": "2025-03-15",
+                "email": "sarah.johnson@techcorp.com",
                 "leave_balance": {
                     "annual": 20,
                     "sick": 10,
@@ -33,6 +34,7 @@ class HRDatabase:
                 "manager": "Lisa Wong",
                 "is_new_employee": False,
                 "join_date": "2023-06-10",
+                "email": "michael.brown@techcorp.com",
                 "leave_balance": {
                     "annual": 15,
                     "sick": 8,
@@ -43,14 +45,13 @@ class HRDatabase:
         
         self.onboarding_tasks = {
             "EMP001": [
-                {"name": "Complete personal information", "status": "completed"},
-                {"name": "Set up company email", "status": "completed"},
-                {"name": "Complete IT security training", "status": "pending"},
+                {"name": "Complete personal information", "status": "pending"},
+                {"name": "Set up company email", "status": "not_started"},
+                {"name": "Complete IT security training", "status": "not_started"},
                 {"name": "Review company policies", "status": "not_started"},
-                {"name": "Set up direct deposit", "status": "completed"},
+                {"name": "Set up direct deposit", "status": "not_started"},
                 {"name": "Meet with team members", "status": "not_started"},
-                {"name": "Complete benefits enrollment", "status": "pending"},
-                {"name": "Finish onboarding", "status": "not_started"}
+                {"name": "Complete benefits enrollment", "status": "not_started"}
             ]
         }
         
@@ -61,15 +62,6 @@ class HRDatabase:
                 {"name": "Emily Wong", "role": "Developer"},
                 {"name": "David Kim", "role": "QA Engineer"},
                 {"name": "Rachel Green", "role": "UX Designer"}
-            ]
-        }
-        
-        self.pending_documents = {
-            "EMP001": [
-                "Government ID",
-                "Proof of address",
-                "Educational certificates",
-                "Previous employment references"
             ]
         }
         
@@ -89,6 +81,13 @@ class HRDatabase:
         """Get onboarding tasks and status"""
         return self.onboarding_tasks.get(employee_id, [])
     
+    def update_task_status(self, employee_id: str, task_index: int, status: str) -> bool:
+        """Update the status of an onboarding task"""
+        if employee_id in self.onboarding_tasks and 0 <= task_index < len(self.onboarding_tasks[employee_id]):
+            self.onboarding_tasks[employee_id][task_index]["status"] = status
+            return True
+        return False
+    
     def get_policy_information(self, policy_query: str) -> str:
         """Get information about company policies"""
         # Simple keyword matching
@@ -98,33 +97,17 @@ class HRDatabase:
         
         return "I couldn't find specific information about that policy. Please contact HR directly for detailed information."
     
-    def submit_leave_request(self, employee_id: str, leave_type: str, 
-                            start_date: str, end_date: str, reason: str) -> Dict[str, str]:
-        """Submit a leave request"""
-        # In a real implementation, this would insert a record in the database
-        # and trigger notifications
-        return {"status": "submitted", "reference_id": "LR" + datetime.now().strftime("%Y%m%d%H%M")}
+    def get_policies(self) -> Dict[str, str]:
+        """Get all policies"""
+        return self.policies
     
     def get_team_information(self, employee_id: str) -> List[Dict[str, str]]:
         """Get information about the employee's team"""
         return self.teams.get(employee_id, [])
-    
-    def get_pending_documents(self, employee_id: str) -> List[str]:
-        """Get list of documents pending submission"""
-        return self.pending_documents.get(employee_id, [])
     
     def update_employee(self, employee_id: str, updates: Dict[str, Any]) -> bool:
         """Update employee information"""
         if employee_id in self.employees:
             self.employees[employee_id].update(updates)
             return True
-        return False
-    
-    def update_onboarding_task(self, employee_id: str, task_name: str, new_status: str) -> bool:
-        """Update the status of an onboarding task"""
-        if employee_id in self.onboarding_tasks:
-            for task in self.onboarding_tasks[employee_id]:
-                if task["name"] == task_name:
-                    task["status"] = new_status
-                    return True
         return False

@@ -50,11 +50,11 @@ slots:
       - type: from_llm
 
 responses:
-  utter_ask_user_name:
-    - text: "Please enter your full name as it appears in the HR system"
+  # utter_ask_user_name:
+  #   - text: "Please enter your full name as it appears in the HR system"
   
-  utter_ask_employee_id:
-    - text: "Please provide your employee ID"
+  # utter_ask_employee_id:
+  #   - text: "Please provide your employee ID"
   
   utter_welcome:
     - text: "Welcome to HR Connect! How can I assist you today?"
