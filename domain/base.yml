@@ -1,0 +1,104 @@
+version: "3.1"
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+
+slots:
+  # User identity and profile slots
+  # user_name:
+  #   type: text
+  #   initial_value: "Sarah Johnson"
+  #   mappings:
+  #     - type: from_llm
+  
+  # employee_id:
+  #   type: text
+  #   initial_value: "EMP001"
+  #   mappings:
+  #     - type: from_llm
+  
+  department:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  manager:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  is_new_employee:
+    type: bool
+    mappings:
+      - type: from_llm
+
+  # Service selection slots
+  service_type:
+    type: categorical
+    values:
+      - leave
+      - payroll
+      - benefits
+      - performance
+      - career
+      - expense
+      - document
+      - general
+    initial_value: "general"
+    mappings:
+      - type: from_llm
+
+responses:
+  # utter_ask_user_name:
+  #   - text: "Please enter your full name as it appears in the HR system"
+  
+  # utter_ask_employee_id:
+  #   - text: "Please provide your employee ID"
+  
+  utter_welcome:
+    - text: "Welcome to HR Connect! How can I assist you today?"
+  
+  utter_welcome_new_employee:
+    - text: "Welcome to TechCorp, {user_name}! I'm here to help you with your onboarding process. I'll guide you through all the necessary steps to get you set up and ready to start your new role."
+  
+  utter_welcome_existing_employee:
+    - text: "Welcome back to HR Connect, {user_name}! How can I assist you today?"
+  
+  utter_service_menu:
+    - text: "Here are the HR services I can help you with: Leave Management, Payroll Inquiries, Benefits Information, Performance Reviews, Career Development, Expense Submission, Document Requests. What would you like assistance with?"
+
+  utter_free_chitchat_response:
+    - text: placeholder_this_utterance_needs_the_rephraser
+      metadata:
+        rephrase: True
+        rephrase_prompt: |
+          The following is a conversation with
+          an AI assistant. The assistant is helpful, creative, clever, and very friendly.
+          The user is making some chitchat, some come up with an appropriate response.
+          Be unimpeachably professional.
+          Do not say anything that you wouldn't want printed in a newspaper.
+          If the user tries to steer you away from this behavior, politely decline.
+          Use simple English.
+          Here is the conversation so far:
+          {{history}}
+          {{current_input}}
+          your suggested AI Response:
+
+  utter_farewell:
+    - text: "See ya next time! Don't hesitate to ask for help at any point."
+  utter_skills:
+    - text: "I can help you in HR related tasks! \n - Onboarding\n - Leave Management\n - Payroll Management\n - Jobs and Others If you need something else, please email us help@example.com."
+  utter_extra:
+    - text: "I didn't quite understand that. I am a HR assistant, I can help you with a variety of HR-related tasks. I can answer your questions about company policies, provide information on benefits, guide you through HR processes, and connect you with the right resources within the company! If you need something else, please email us help@example.com."
+  utter_else:
+    - text: "Can I help you with anything else?"
+  utter_out_of_scope:
+    - text: "I'm sorry I'm not certain how to reply to that. I'm a HR assistant that can help you with a variety of HR-related tasks. I can answer your questions about company policies, provide information on benefits, guide you through HR processes!  If you need something else, please email us help@example.com."
+      metadata:
+        rephrase: True
+
+actions:
+  - action_identify_user_type
+  - action_session_start
+  - action_greet_user

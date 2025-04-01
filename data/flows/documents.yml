@@ -1,0 +1,21 @@
+version: "3.1"
+
+flows:
+  document_upload_flow:
+    description: Help users upload and verify required documents
+    steps:
+      - action: utter_ask_document_type
+      - collect: document_type
+        description: Type of document being uploaded
+      
+      - action: utter_document_upload_instructions
+      - action: action_verify_documents
+      - action: utter_document_upload_confirmation
+
+  document_request_flow:
+    description: Help users request official documents
+    steps:
+      - collect: requested_document_type
+        description: Type of document being requested
+      - action: action_process_document_request
+      - action: utter_document_request_confirmation

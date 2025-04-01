@@ -1,0 +1,221 @@
+version: "3.1"
+
+slots:
+  # Employee basic information
+  employee_id:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  user_name:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  department:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  manager:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  # Onboarding progress tracking
+  is_new_employee:
+    type: bool
+    initial_value: true
+    mappings:
+      - type: from_llm
+  
+  onboarding_progress_percentage:
+    type: float
+    mappings:
+      - type: from_llm
+  
+  onboarding_progress:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  onboarding_next_task:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  current_onboarding_step:
+    type: float
+    initial_value: 0
+    mappings:
+      - type: from_llm
+  
+  # Flow-specific slots
+  email_setup_confirmed:
+    type: bool
+    mappings:
+      - type: from_llm
+  
+  training_complete:
+    type: bool
+    mappings:
+      - type: from_llm
+  
+  policy_questions:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  policy_acknowledged:
+    type: bool
+    mappings:
+      - type: from_llm
+  
+  direct_deposit_setup:
+    type: bool
+    mappings:
+      - type: from_llm
+  
+  team_intro_complete:
+    type: bool
+    mappings:
+      - type: from_llm
+  
+  benefits_selection_complete:
+    type: bool
+    mappings:
+      - type: from_llm
+  
+  # Display information
+  team_information:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  required_trainings:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  policy_list:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  show_profile_requested:
+    type: bool
+    initial_value: false
+    mappings:
+      - type: from_llm
+
+responses:
+  utter_ask_user_name:
+    - text: "What is your full name?"
+  
+  utter_ask_department:
+    - text: "Which department will you be joining?"
+  
+  utter_ask_manager:
+    - text: "Who will be your manager at TechCorp?"
+  
+  utter_ask_email_setup_confirmed:
+    - text: "Have you completed setting up your company email? Please confirm by typing 'yes' when done."
+  
+  utter_ask_training_complete:
+    - text: "Have you completed the security training modules? Please confirm by typing 'yes' when done."
+  
+  utter_ask_policy_questions:
+    - text: "Do you have any questions about the company policies I've shared?"
+  
+  utter_ask_policy_acknowledged:
+    - text: "Please confirm that you've reviewed and understood all the company policies by typing 'yes'."
+  
+  utter_ask_direct_deposit_setup:
+    - text: "Have you completed setting up your direct deposit information? Please confirm by typing 'yes' when done."
+  
+  utter_ask_team_intro_complete:
+    - text: "Have you had a chance to meet with your team members? Please confirm by typing 'yes' when done."
+  
+  utter_ask_benefits_selection_complete:
+    - text: "Have you completed your benefits selections? Please confirm by typing 'yes' when done."
+  
+  utter_onboarding_welcome:
+    - text: |
+        Welcome to TechCorp, {user_name}! I'm here to help you with your onboarding process.
+        
+        Your current progress:
+        Step {current_onboarding_step}/7: {onboarding_next_task}
+        
+        Completed steps:
+        {onboarding_progress}
+        
+        Overall completion: {onboarding_progress_percentage}%
+  
+  utter_onboarding_checklist:
+    - text: |
+        Here's your personalized onboarding checklist:
+        
+        {onboarding_progress}
+        
+        Your overall progress is {onboarding_progress_percentage}%.
+        
+        What would you like help with next?
+
+  utter_personal_info_complete:
+    - text: "Thank you! I've saved your personal information."
+
+  utter_it_setup_instructions:
+    - text: "Let's set up your company email. You should have received temporary credentials in your personal email. Please follow the instructions to set up your account."
+
+  utter_security_training_intro:
+    - text: "Next, you'll need to complete IT security training. This is essential to ensure you understand our security protocols."
+
+  utter_policy_overview:
+    - text: "Here are the key policies you need to review: {policy_list}. Please take some time to read through them."
+
+  utter_direct_deposit_instructions:
+    - text: "Let's set up your direct deposit for payroll. You'll need your bank account and routing numbers."
+
+  utter_team_introduction:
+    - text: "Let me introduce you to your team members: {team_information}. Your direct manager is {manager}."
+
+  utter_schedule_team_meeting:
+    - text: "I've scheduled a team introduction meeting for you on your calendar."
+
+  utter_benefits_enrollment_intro:
+    - text: "Now let's review your benefit options and complete your enrollment."
+
+  utter_onboarding_congratulations:
+    - text: "Congratulations! You've successfully completed your onboarding process. You're now all set up and ready to go!"
+
+  utter_introduce_regular_services:
+    - text: "Now that you're fully onboarded, you can use my services for various HR needs like leave management, payroll inquiries, benefits information, and more."
+
+  utter_task_update_confirmation:
+    - text: "Great! I've marked the task as completed. Your onboarding progress is now {onboarding_progress_percentage}%."
+
+  utter_employee_profile:
+    - text: |
+        Here's your current profile information:
+        
+        Name: {user_name}
+        Department: {department}
+        Manager: {manager}
+        
+        Onboarding progress: {onboarding_progress_percentage}%
+
+actions:
+  - action_get_onboarding_status
+  - action_update_onboarding_task
+  - action_get_team_information
+  - action_get_required_trainings
+  - action_get_policy_list
+  - action_answer_policy_questions
+  - action_verify_onboarding_completion
+  - action_update_employee_status
+  - action_manage_onboarding_steps
+  - action_provide_training_materials
+  - action_guide_benefits_selection
+  - action_get_employee_profile
+  - action_show_user_profile
+  - action_check_profile_request

@@ -1,0 +1,170 @@
+version: "3.1"
+
+slots:
+  # Benefits slots
+  selected_benefit:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  # Policy slots
+  policy_answer:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  # Performance review slots
+  review_action:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  # Career development slots
+  career_action:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  # Payroll slots
+  payroll_inquiry_type:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  # Emergency slots
+  emergency_type:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  # Feedback slots
+  service_rating:
+    type: text
+    mappings:
+      - type: from_llm
+  improvement_suggestions:
+    type: text
+    mappings:
+      - type: from_llm
+
+responses:
+  utter_ask_selected_benefit:
+    - text: "Which benefit would you like to know more about?"
+  
+  utter_ask_review_action:
+    - text: "What would you like to do regarding your performance review?"
+      buttons:
+        - title: View Feedback
+          payload: "view_feedback"
+        - title: Submit Self-Assessment
+          payload: "submit_self_assessment"
+        - title: Schedule Review
+          payload: "schedule_review"
+  
+  utter_invalid_review_action:
+    - text: "I'm sorry, I didn't understand that. Please choose one of the following options: View Feedback, Submit Self-Assessment, Schedule Review."
+
+  utter_view_feedback:
+    - text: "You have good feedback"
+  
+  utter_submit_self_assessment:
+    - text: "Please submit your self-assessment by filling out the form in the employee portal."
+  
+  utter_schedule_review:
+    - text: "To schedule your performance review, please contact your manager or HR representative."
+
+  utter_ask_career_action:
+    - text: "What career development activity are you interested in?"
+      buttons:
+        - title: Training
+          payload: "training"
+        - title: Mentorship
+          payload: "mentorship"
+        - title: Internal Transfer
+          payload: "internal_transfer"
+        - title: Promotion
+          payload: "promotion"
+
+  utter_training_request:
+    - text: "To request training, please fill out the training request form on the employee portal."
+
+  utter_mentorship_request:
+    - text: "To request a mentorship, please fill out the mentorship request form on the employee portal."
+  
+  utter_internal_transfer_request:
+    - text: "To request an internal transfer, please fill out the internal transfer request form on the employee portal."
+
+  utter_promotion_request:
+    - text: "To request a promotion, please fill out the promotion request form on the employee portal."
+
+  utter_invalid_career_action:
+    - text: "I'm sorry, I didn't understand that. Please choose one of the following options: Training, Mentorship, Internal Transfer, Promotion."
+  
+  utter_ask_emergency_type:
+    - text: "What type of emergency assistance do you need?"
+      buttons:
+        - title: Medical
+          payload: "medical"
+        - title: Personal
+          payload: "personal"
+        - title: Other
+          payload: "other"
+  
+  utter_ask_service_rating:
+    - text: "On a scale of 1 to 5, how would you rate your service experience?"
+      buttons:
+        - title: "1"
+          payload: "1"
+        - title: "2"
+          payload: "2"
+        - title: "3"
+          payload: "3"
+        - title: "4"
+          payload: "4"
+        - title: "5"
+          payload: "5"
+
+  utter_ask_improvement_suggestions:
+    - text: "What suggestions do you have for improving our services?"
+
+  
+  utter_ask_payroll_inquiry_type:
+    - text: "What type of payroll information do you need?"
+      buttons:
+        - title: Payslip
+          payload: "payslip"
+        - title: Tax Documents
+          payload: "tax"
+        - title: Salary Details
+          payload: "salary"
+
+  utter_tax_documents:
+    - text: "To access your tax documents, please log in to the employee portal and navigate to the 'Tax Documents' section."
+
+  utter_salary_details:
+    - text: "To view your salary details, please log in to the employee portal and navigate to the 'Salary Details' section."
+
+  utter_invalid_payroll_inquiry_type:
+    - text: "I'm sorry, I didn't understand that. Please choose one of the following options: Payslip, Tax Documents, Salary Details."
+  
+  utter_benefits_overview:
+    - text: "As a full-time employee, you're eligible for: 1) Health insurance (medical, dental, vision), 2) 401(k) with 4% company match, 3) Life insurance, 4) Wellness program. Which benefit would you like to know more about?"
+  
+  utter_email_setup:
+    - text: "To set up your email: 1) Visit portal.techcorp.com, 2) Use your employee ID ({employee_id}) as your username and the temporary password from your welcome email, 3) Follow the prompts to create a permanent password."
+  
+  # Emergency responses
+  utter_emergency_confirmation:
+    - text: "I understand this is an urgent matter. Your request has been prioritized and the HR team has been notified."
+  
+  # Feedback responses
+  utter_feedback_thank_you:
+    - text: "Thank you for your feedback! We appreciate your input and will use it to improve our services."
+
+actions:
+  - action_get_benefits_information
+  - action_get_payslip
+  - action_get_policy_information
+  - action_get_review_status
+  - action_get_career_path
+  - action_it_support

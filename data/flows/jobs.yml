@@ -1,0 +1,12 @@
+flows:
+  job_search_flow:
+    description: Help users find and apply for internal job openings
+    steps:
+      - collect: job_title
+        description: Job title or role the user is interested in
+      - collect: job_location
+        description: Preferred job location (city, remote, etc.)
+      - collect: job_department
+        description: Department the user wants to work in
+      
+      - action: action_search_jobs

@@ -1,0 +1,66 @@
+version: "3.1"
+
+flows:
+  leave_management_flow:
+    description: Central flow for all leave-related activities
+    steps:
+      - collect: leave_action
+        description: What the user wants to do regarding leaves
+        
+        next:
+          - if: "slots.leave_action == 'check_balance'"
+            then: 
+              - link: leave_balance_inquiry_flow
+          - if: "slots.leave_action == 'request'"
+            then: 
+              - link: leave_request_flow
+          - if: "slots.leave_action == 'cancel'"
+            then: 
+              - link: leave_cancellation_flow
+          - if: "slots.leave_action == 'status'"
+            then: 
+              - link: leave_status_inquiry_flow
+          - else: handle_invalid_leave_action  # Add this else branch
+
+      # Add this step to handle invalid leave actions
+      - id: handle_invalid_leave_action
+        action: utter_invalid_leave_action
+          
+
+  leave_balance_inquiry_flow:
+    description: Help the user check their available leave balance
+    steps:
+      - action: action_get_leave_balance
+
+  leave_request_flow:
+    description: Guide users through the process of requesting leave
+    steps:
+      - collect: leave_type
+        description: Type of leave the user wants to request
+      
+      - collect: leave_start_date
+        description: Start date for the leave request, give in YYYY-MM-DD format
+      
+      - collect: leave_end_date
+        description: End date for the leave request, give in YYYY-MM-DD format
+        
+      - collect: leave_reason
+        description: Reason for requesting leave
+      
+      - action: action_submit_leave_request
+      - action: utter_leave_confirmed
+
+  leave_cancellation_flow:
+    description: Process leave cancellation requests
+    steps:
+      - action: action_get_pending_leaves
+      - collect: leave_to_cancel
+        
+      - action: action_cancel_leave
+      - action: utter_leave_cancellation_confirmation
+
+  leave_status_inquiry_flow:
+    description: Check status of leave requests
+    steps:
+      - action: action_get_leave_status
+      - action: utter_leave_status

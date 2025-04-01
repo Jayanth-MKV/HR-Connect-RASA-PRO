@@ -1,0 +1,44 @@
+version: "3.1"
+
+slots:
+  expense_amount:
+    type: float
+    mappings:
+      - type: from_llm
+  
+  expense_category:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  expense_date:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  expense_description:
+    type: text
+    mappings:
+      - type: from_llm
+
+responses:
+  utter_expense_submission_instructions:
+    - text: "For expense claims: 1) Use the TechCorp Expense app, 2) Take photos of receipts, 3) Enter expense details and category, 4) Submit for approval. Expenses must be submitted within 30 days."
+  
+  utter_ask_expense_details:
+    - text: "Please provide the expense amount, category, date, and a brief description."
+  
+  utter_ask_expense_amount:
+    - text: "What is the amount of the expense?"
+
+  utter_ask_expense_category:
+    - text: "What category does this expense fall under?"
+
+  utter_ask_expense_date:
+    - text: "When was this expense incurred? (Please use YYYY-MM-DD format)"
+
+  utter_ask_expense_description:
+    - text: "Please provide a brief description of the expense."
+
+actions:
+  - action_submit_expense

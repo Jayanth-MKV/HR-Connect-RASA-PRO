@@ -1,0 +1,112 @@
+version: "3.1"
+
+slots:
+  leave_action:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  leave_type:
+    type: categorical
+    values:
+      - annual
+      - sick
+      - personal
+      - other
+    mappings:
+      - type: from_llm
+  
+  leave_start_date:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  leave_end_date:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  leave_reason:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  leave_status:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  leave_balance:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  leave_to_cancel:
+    type: text
+    mappings:
+      - type: from_llm
+
+responses:
+  utter_ask_leave_action:
+    - text: "What would you like to do regarding your leave?"
+      buttons:
+        - title: Check Balance
+          payload: "check_balance"
+        - title: Request Leave
+          payload: "request"
+        - title: Cancel Leave
+          payload: "cancel"
+        - title: Check Status
+          payload: "status"
+  
+  utter_ask_leave_type:
+    - text: "What type of leave would you like to request?"
+      metadata:
+        rephrase: True
+        template: jinja
+      buttons:
+        - title: Annual
+          payload: "annual"
+        - title: Sick
+          payload: "sick"
+        - title: Personal
+          payload: "personal"
+        - title: Other
+          payload: "other"
+  
+  utter_ask_leave_start_date:
+    - text: "What is the first day of your leave? (Please use YYYY-MM-DD format)"
+  
+  utter_ask_leave_end_date:
+    - text: "What is the last day of your leave? (Please use YYYY-MM-DD format)"
+  
+  utter_ask_leave_reason:
+    - text: "Could you briefly describe the reason for your leave request?"
+  
+  utter_ask_leave_to_cancel:
+    - text: "Please provide the ID of the leave request you want to cancel."
+  
+  utter_leave_confirmed:
+    - text: "I've submitted your {leave_type} leave request from {leave_start_date} to {leave_end_date}. Your manager ({manager}) will be notified for approval."
+  
+  utter_leave_cancellation_confirmation:
+    - text: "Your leave request from {leave_to_cancel} has been successfully cancelled."
+  
+  utter_leave_status:
+    - text: "The status of your leave request is: {leave_status}"
+  
+  utter_invalid_date_format:
+    - text: "Please provide the date in YYYY-MM-DD format."
+  
+  utter_end_date_before_start_date:
+    - text: "The end date cannot be before the start date."
+
+  utter_invalid_leave_action:
+    - text: "I'm sorry, but I didn't understand that action. Please specify if you want to check your leave balance, request leave, cancel leave, or check the status of your leave."
+
+actions:
+  - action_get_leave_balance
+  - action_submit_leave_request
+  - action_get_pending_leaves
+  - action_cancel_leave
+  - action_get_leave_status
