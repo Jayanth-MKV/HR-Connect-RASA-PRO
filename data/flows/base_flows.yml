@@ -1,0 +1,66 @@
+version: "3.1"
+
+flows:
+  main_entry_flow:
+    description: Identify user type and route to appropriate flows
+    steps:
+      - action: action_identify_user_type
+        next:
+          - if: "slots.is_new_employee == true"
+            then: 
+              - link: new_employee_welcome_flow
+          - else: 
+            - link: existing_employee_welcome_flow
+
+  # New Employee Welcome Flow
+  new_employee_welcome_flow:
+    description: Welcome new employees and introduce onboarding process
+    steps:
+      - action: utter_welcome_new_employee
+      - action: action_get_onboarding_status
+      - action: utter_onboarding_checklist
+      - link: onboarding_next_steps_flow
+
+  # Existing Employee Welcome Flow
+  existing_employee_welcome_flow:
+    description: Welcome existing employees and provide service options
+    steps:
+      - action: utter_welcome_existing_employee
+      - action: utter_service_menu
+      - link: service_selection_flow
+
+  service_selection_flow:
+    description: Allow existing employees to select HR services
+    steps:
+      - collect: service_type
+        description: Type of HR service needed
+        next:
+          - if: "slots.service_type == 'leave'"
+            then: 
+              - link: leave_management_flow
+          - if: "slots.service_type == 'payroll'"
+            then: 
+              - link: payroll_inquiry_flow
+          - if: "slots.service_type == 'benefits'"
+            then: 
+              - link: benefits_inquiry_flow
+          - if: "slots.service_type == 'performance'"
+            then: 
+              - link: performance_review_flow
+          - if: "slots.service_type == 'career'"
+            then: 
+              - link: career_development_flow
+          - if: "slots.service_type == 'expense'"
+            then: 
+              - link: expense_submission_flow
+          - if: "slots.service_type == 'document'"
+            then: 
+              - link: document_request_flow
+          - else: 
+            - link: chitchat_flow
+
+  # Fallback flow for free chitchat
+  chitchat_flow:
+    description: Handle casual conversation and small talk with appropriate responses
+    steps:
+      - action: utter_free_chitchat_response

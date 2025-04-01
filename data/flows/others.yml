@@ -1,0 +1,111 @@
+flows:
+  payroll_inquiry_flow:
+    description: Allow users to securely access and view their payroll information
+    steps:
+      - collect: payroll_inquiry_type
+        description: Type of payroll information needed
+        next:
+          - if: "slots.payroll_inquiry_type == 'payslip'"
+            then: 
+              - link: payslip_inquiry_flow
+          - if: "slots.payroll_inquiry_type == 'tax'"
+            then: 
+              - link: tax_documents_flow
+          - if: "slots.payroll_inquiry_type == 'salary'"
+            then: 
+              - link: salary_details_flow
+          - else:
+            - action: utter_invalid_payroll_inquiry_type
+              next: END
+
+  payslip_inquiry_flow:
+    description: Allow users to securely access and view their payslip information
+    steps:
+      - action: action_get_payslip
+  
+  tax_documents_flow:
+    description: Allow users to securely access and view their tax documents
+    steps:
+      - action: utter_tax_documents
+
+  salary_details_flow:
+    description: Allow users to securely access and view their salary details
+    steps:
+      - action:   utter_salary_details
+
+  benefits_inquiry_flow:
+    description: Provide information about employee benefits and enrollment options
+    steps:
+      - action: utter_benefits_overview
+      - collect: selected_benefit
+        description: The specific benefit the user wants to learn more about
+      
+      - action: action_get_benefits_information
+
+  performance_review_flow:
+    description: Handle performance review processes
+    steps:
+      - action: action_get_review_status
+      - collect: review_action
+        description: What the user wants to do regarding performance review
+        next:
+          - if: "slots.review_action == 'view_feedback'"
+            then: 
+              - action: utter_view_feedback
+                next: END
+          - if: "slots.review_action == 'submit_self_assessment'"
+            then: 
+              - action: utter_submit_self_assessment
+                next: END
+          - if: "slots.review_action == 'schedule_review'"
+            then: 
+              - action: utter_schedule_review
+                next: END
+          - else:
+            - action: utter_invalid_review_action
+              next: END
+
+
+  career_development_flow:
+    description: Support career development activities
+    steps:
+      - action: action_get_career_path
+      - collect: career_action
+        description: What career development activity the user wants to pursue
+        next:
+          - if: "slots.career_action == 'training'"
+            then: 
+              - action: utter_training_request
+                next: END
+          - if: "slots.career_action == 'mentorship'"
+            then: 
+              - action: utter_mentorship_request
+                next: END
+          - if: "slots.career_action == 'internal_transfer'"
+            then: 
+              - action: utter_internal_transfer_request
+                next: END
+          - if: "slots.career_action == 'promotion'"
+            then: 
+              - action: utter_promotion_request
+                next: END
+          - else:
+            - action: utter_invalid_career_action
+              next: END
+
+  # Feedback and Emergency Flows
+  service_feedback_flow:
+    description: Collect feedback after any completed HR service
+    steps:
+      - collect: service_rating
+        description: User rating of service experience
+      - collect: improvement_suggestions
+        description: User suggestions for improvement
+      - action: utter_feedback_thank_you
+
+  emergency_request_flow:
+    description: Handle urgent HR requests
+    steps:
+      - collect: emergency_type
+        description: Type of emergency request
+      - action: utter_emergency_confirmation

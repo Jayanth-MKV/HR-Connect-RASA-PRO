@@ -1,0 +1,39 @@
+version: "3.1"
+
+slots:
+  document_type:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  document_status:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  requested_document_type:
+    type: text
+    mappings:
+      - type: from_llm
+
+responses:
+  utter_ask_document_type:
+    - text: "What type of document would you like to upload? (ID proof, Address proof, Educational certificates, etc.)"
+  
+  utter_ask_requested_document_type:
+    - text: "What type of document would you like to request?"
+  
+  utter_document_upload_instructions:
+    - text: "To upload your {document_type}, please use the secure document portal. Select '{document_type}' from the dropdown, choose your file (PDF, JPG, PNG; max 5MB), and click 'Upload'."
+  
+  utter_document_upload_confirmation:
+    - text: "Your {document_type} has been successfully uploaded and securely stored."
+  
+
+  utter_document_request_confirmation:
+    - text: "Your request for {requested_document_type} has been submitted. You'll receive it within 2 business days."
+
+actions:
+  - action_verify_documents
+  - action_check_pending_documents
+  - action_process_document_request

@@ -1,0 +1,121 @@
+version: "3.1"
+
+flows:
+  onboarding_main_flow:
+    description: Main entry point for onboarding process
+    steps:
+      - action: action_get_onboarding_status
+      - action: utter_onboarding_welcome
+      - link: personal_info_flow
+
+  personal_info_flow:
+    description: Step 1 - Complete personal information
+    steps:
+      - action: utter_request_personal_info
+      - collect: user_name
+        description: User's full name
+      - collect: department
+        description: Department the user will be joining
+      - collect: manager
+        description: User's manager name
+      - action: action_collect_personal_info
+      - action: action_update_onboarding_task
+      - link: email_setup_flow
+
+  email_setup_flow:
+    description: Step 2 - Set up company email
+    steps:
+      - action: utter_it_setup_instructions
+      - action: action_setup_company_email
+      - action: action_update_onboarding_task
+      - link: security_training_flow
+
+  security_training_flow:
+    description: Step 3 - Complete IT security training
+    steps:
+      - action: utter_security_training_intro
+      - action: action_provide_training_materials
+      - action: action_verify_training_completion
+      - action: action_update_onboarding_task
+      - link: policy_review_flow
+
+  policy_review_flow:
+    description: Step 4 - Review company policies
+    steps:
+      - action: action_get_policy_list
+      - action: utter_policy_overview
+      - collect: policy_questions
+        description: Any questions about company policies
+      - action: action_answer_policy_questions
+      - action: action_update_onboarding_task
+      - link: direct_deposit_flow
+
+  direct_deposit_flow:
+    description: Step 5 - Set up direct deposit
+    steps:
+      - action: utter_direct_deposit_instructions
+      - action: action_setup_direct_deposit
+      - action: action_update_onboarding_task
+      - link: team_introduction_flow
+
+  team_introduction_flow:
+    description: Step 6 - Meet with team members
+    steps:
+      - action: action_get_team_information
+      - action: utter_team_introduction
+      - action: utter_schedule_team_meeting
+      - action: action_update_onboarding_task
+      - link: benefits_enrollment_flow
+
+  benefits_enrollment_flow:
+    description: Step 7 - Complete benefits enrollment
+    steps:
+      - action: utter_benefits_enrollment_intro
+      - action: action_guide_benefits_selection
+      - action: action_update_onboarding_task
+      - link: onboarding_completion_flow
+
+  onboarding_completion_flow:
+    description: Finish onboarding process
+    steps:
+      - action: action_verify_onboarding_completion
+      - action: utter_onboarding_congratulations
+      - action: action_update_employee_status
+      - action: utter_introduce_regular_services
+
+  onboarding_status_flow:
+    description: Check current onboarding status
+    steps:
+      - action: action_get_onboarding_status
+      - action: utter_onboarding_checklist
+
+  onboarding_next_steps_flow:
+    description: Guide through next steps of onboarding
+    steps:
+      - action: utter_onboarding_next_task
+      - collect: onboarding_task_selection
+        description: Which onboarding task the employee wants to complete next
+        next:
+          - if: "slots.onboarding_task_selection == 'personal_info'"
+            then: 
+              - link: personal_info_flow
+          - if: "slots.onboarding_task_selection == 'email_setup'"
+            then: 
+              - link: email_setup_flow
+          - if: "slots.onboarding_task_selection == 'security_training'"
+            then: 
+              - link: security_training_flow
+          - if: "slots.onboarding_task_selection == 'policy_review'"
+            then: 
+              - link: policy_review_flow
+          - if: "slots.onboarding_task_selection == 'direct_deposit'"
+            then: 
+              - link: direct_deposit_flow
+          - if: "slots.onboarding_task_selection == 'team_introduction'"
+            then: 
+              - link: team_introduction_flow
+          - if: "slots.onboarding_task_selection == 'benefits'"
+            then: 
+              - link: benefits_enrollment_flow
+          - else: 
+              - link: onboarding_status_flow

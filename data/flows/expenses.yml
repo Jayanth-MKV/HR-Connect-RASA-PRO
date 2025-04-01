@@ -1,0 +1,23 @@
+version: "3.1"
+
+flows:
+  expense_submission_flow:
+    description: Guide users through submitting and tracking expense reimbursements
+    steps:
+      - action: utter_expense_submission_instructions
+      - action: utter_ask_expense_details
+      
+      - collect: expense_amount
+        description: Amount to be reimbursed
+        
+      
+      - collect: expense_category
+        description: Category of expense (travel, meals, etc.)
+      
+      - collect: expense_date
+        description: Date when the expense was incurred
+      
+      - collect: expense_description
+        description: Brief description of the expense
+      
+      - action: action_submit_expense

@@ -1,0 +1,41 @@
+version: "3.1"
+
+slots:
+  # Job search slots
+  job_title:
+    type: text
+    mappings:
+      - type: from_llm
+  job_location:
+    type: text
+    mappings:
+      - type: from_llm
+  job_department:
+    type: text
+    mappings:
+      - type: from_llm
+  job_listings:
+    type: list
+    mappings:
+      - type: from_llm
+  
+
+
+
+responses:
+  utter_ask_job_title:
+    - text: "What job title are you looking for?"
+  utter_ask_job_location:
+    - text: "Where would you like to work?"
+  utter_ask_job_department:
+    - text: "Which department are you interested in?"
+  utter_job_search_results:
+    - text: "Here are the job openings that match your criteria:\n{job_listings}"
+  utter_job_search_no_results:
+    - text: "I'm sorry, but I couldn't find any job openings that match your criteria. Would you like to try again?"
+  utter_job_search_error:
+    - text: "There was an error while searching for job openings. Please try again later."
+  
+
+actions:
+  - action_search_jobs

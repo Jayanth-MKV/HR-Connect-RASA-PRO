@@ -1,0 +1,202 @@
+version: "3.1"
+
+slots:
+  # Employee information
+  employee_id:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  user_name:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  department:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  manager:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  is_new_employee:
+    type: bool
+    initial_value: true
+    mappings:
+      - type: from_llm
+  
+  # Onboarding tracking
+  onboarding_progress_percentage:
+    type: float
+    mappings:
+      - type: from_llm
+  
+  onboarding_task_selection:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  training_preferences:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  policy_questions:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  onboarding_progress:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  onboarding_next_task:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  current_onboarding_step:
+    type: float
+    initial_value: 0
+    mappings:
+      - type: from_llm
+  
+  onboarding_completed:
+    type: bool
+    initial_value: false
+    mappings:
+      - type: from_llm
+  
+  # Team information
+  team_information:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  # Training and policy information
+  required_trainings:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  policy_list:
+    type: text
+    mappings:
+      - type: from_llm
+
+responses:
+  utter_ask_onboarding_task_selection:
+    - text: "Which onboarding task would you like to complete next?"
+  
+  utter_ask_training_preferences:
+    - text: "When would you prefer to schedule your required training sessions?"
+  
+  utter_ask_policy_questions:
+    - text: "Do you have any questions about the company policies?"
+  
+  utter_ask_department:
+    - text: "Which department will you be joining?"
+  
+  utter_ask_manager:
+    - text: "Who is your manager at TechCorp?"
+  
+  utter_pre_joining_welcome:
+    - text: "Hi {user_name}, welcome to TechCorp's pre-joining process! I'll help you prepare everything you need before your first day."
+  
+  utter_first_day_welcome:
+    - text: "Welcome to your first day at TechCorp, {user_name}! I'm here to make your first day as smooth as possible."
+  
+  utter_first_day_schedule:
+    - text: "Here's your schedule for today: 1) 9:00 AM - Welcome meeting with HR, 2) 10:30 AM - IT setup and office tour, 3) 12:00 PM - Lunch with your team, 4) 1:30 PM - Introduction to company policies, 5) 3:00 PM - Meet with your manager."
+  
+  utter_team_introduction:
+    - text: "Let me introduce you to your team members: {team_information}. Your direct manager is {manager}."
+  
+  utter_schedule_team_meeting:
+    - text: "I've scheduled a team introduction meeting for you on your calendar."
+  
+  utter_training_schedule:
+    - text: "Here are the training sessions you need to complete: {required_trainings}. When would you prefer to schedule these?"
+  
+  utter_policy_overview:
+    - text: "Here are the key policies you need to review: {policy_list}. Do you have any questions about these policies?"
+  
+  utter_onboarding_congratulations:
+    - text: "Congratulations! You've successfully completed your onboarding process. You're now all set up and ready to go!"
+  
+  utter_introduce_regular_services:
+    - text: "Now that you're fully onboarded, you can use my services for various HR needs like leave management, payroll inquiries, benefits information, and more."
+  
+  utter_task_update_confirmation:
+    - text: "Great! I've marked the task as completed. Your onboarding progress is now {onboarding_progress_percentage}%."
+  
+  utter_onboarding_welcome:
+    - text: |
+        Welcome to TechCorp, {user_name}! I'm here to help you with your onboarding process.
+        
+        Your current progress:
+        Step {current_onboarding_step}/8: {onboarding_next_task}
+        
+        Completed steps:
+        {onboarding_progress}
+        
+        Overall completion: {onboarding_progress_percentage}%
+  
+  utter_onboarding_checklist:
+    - text: "Here's your personalized onboarding checklist: {onboarding_progress}. Your overall progress is {onboarding_progress_percentage}%. What would you like help with first?"
+
+  utter_onboarding_next_task:
+    - text: "Your next task is: {onboarding_next_task}. Would you like assistance with this task?"
+
+  utter_request_personal_info:
+    - text: "Let's start by collecting your personal information. What's your full name?"
+
+  utter_personal_info_complete:
+    - text: "Thank you! I've saved your personal information."
+
+  utter_security_training_intro:
+    - text: "Next, you'll need to complete IT security training. This is essential to ensure you understand our security protocols."
+
+  utter_it_setup_instructions:
+    - text: "Let's set up your company email. You should have received temporary credentials in your personal email. Have you been able to log in?"
+
+  utter_direct_deposit_instructions:
+    - text: "Let's set up your direct deposit for payroll. You'll need your bank account and routing numbers."
+
+  utter_benefits_enrollment_intro:
+    - text: "Now let's review your benefit options and complete your enrollment."
+
+  utter_document_submission_instructions:
+    - text: "We typically need some documents for your personnel file. Since we're keeping this simple, just let me know when you're ready to proceed."
+
+  utter_existing_employee_welcome:
+    - text: "Welcome back! How can I assist you today?"
+
+  utter_policy_response:
+    - text: "Here's the policy information you requested: {policy_answer}"
+
+actions:
+  - action_get_onboarding_status
+  - action_update_onboarding_task
+  - action_assign_buddy
+  - action_notify_team
+  - action_get_team_information
+  - action_get_required_trainings
+  - action_schedule_trainings
+  - action_get_policy_list
+  - action_answer_policy_questions
+  - action_verify_onboarding_completion
+  - action_update_employee_status
+  - action_manage_onboarding_steps
+  - action_collect_personal_info
+  - action_setup_company_email
+  - action_provide_training_materials
+  - action_verify_training_completion
+  - action_setup_direct_deposit
+  - action_guide_benefits_selection
+  - action_check_pending_documents
+  - action_it_support

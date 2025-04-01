@@ -1,0 +1,476 @@
+version: "3.1"
+
+session_config:
+  session_expiration_time: 60  # value in minutes
+  carry_over_slots_to_new_session: true
+
+slots:
+  # User identity and profile slots
+  user_name:
+    type: text
+    initial_value: "Sarah Johnson"
+    mappings:
+      - type: from_llm
+  employee_id:
+    type: text
+    initial_value: "EMP001"
+    mappings:
+      - type: from_llm
+  department:
+    type: text
+    mappings:
+      - type: from_llm
+  manager:
+    type: text
+    mappings:
+      - type: from_llm
+  is_new_employee:
+    type: bool
+    mappings:
+      - type: from_llm
+  
+  # New employee specific slots
+  onboarding_progress_percentage:
+    type: float
+    mappings:
+      - type: from_llm
+  onboarding_task_selection:
+    type: text
+    mappings:
+      - type: from_llm
+  training_preferences:
+    type: text
+    mappings:
+      - type: from_llm
+  policy_questions:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  # Service selection slots
+  service_type:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  # Leave management slots
+  leave_action:
+    type: text
+    mappings:
+      - type: from_llm
+  leave_type:
+    type: categorical
+    values:
+      - annual
+      - sick
+      - personal
+      - other
+    mappings:
+      - type: from_llm
+  leave_start_date:
+    type: text
+    mappings:
+      - type: from_llm      
+  leave_end_date:
+    type: text
+    mappings:
+      - type: from_llm
+  leave_reason:
+    type: text
+    mappings:
+      - type: from_llm
+  leave_status:
+    type: text
+    mappings:
+      - type: from_llm
+  leave_balance:
+    type: text
+    mappings:
+      - type: from_llm
+  leave_to_cancel:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  # Document slots
+  document_type:
+    type: text
+    mappings:
+      - type: from_llm
+  document_status:
+    type: text
+    mappings:
+      - type: from_llm
+  requested_document_type:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  # Expense slots
+  expense_amount:
+    type: float
+    mappings:
+      - type: from_llm
+  expense_category:
+    type: text
+    mappings:
+      - type: from_llm
+  expense_date:
+    type: text
+    mappings:
+      - type: from_llm
+  expense_description:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  # Onboarding slots
+  onboarding_progress:
+    type: text
+    mappings:
+      - type: from_llm
+  onboarding_next_task:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  # Benefits slots
+  selected_benefit:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  # Policy slots
+  policy_answer:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  # Performance review slots
+  review_action:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  # Career development slots
+  career_action:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  # Payroll slots
+  payroll_inquiry_type:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  # Emergency slots
+  emergency_type:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  # Feedback slots
+  service_rating:
+    type: text
+    mappings:
+      - type: from_llm
+  improvement_suggestions:
+    type: text
+    mappings:
+      - type: from_llm
+  
+  # Job search slots
+  job_title:
+    type: text
+    mappings:
+      - type: from_llm
+  job_location:
+    type: text
+    mappings:
+      - type: from_llm
+  job_department:
+    type: text
+    mappings:
+      - type: from_llm
+
+responses:
+  # General responses
+  utter_welcome:
+    - text: "Welcome to HR Connect! How can I assist you today?"
+  
+  # New employee specific responses
+  utter_welcome_new_employee:
+    - text: "Welcome to TechCorp, {user_name}! I'm here to help you with your onboarding process. I'll guide you through all the necessary steps to get you set up and ready to start your new role."
+  
+  utter_pre_joining_welcome:
+    - text: "Hi {user_name}, welcome to TechCorp's pre-joining process! I'll help you prepare everything you need before your first day."
+  
+  utter_first_day_welcome:
+    - text: "Welcome to your first day at TechCorp, {user_name}! I'm here to make your first day as smooth as possible."
+  
+  utter_first_day_schedule:
+    - text: "Here's your schedule for today: 1) 9:00 AM - Welcome meeting with HR, 2) 10:30 AM - IT setup and office tour, 3) 12:00 PM - Lunch with your team, 4) 1:30 PM - Introduction to company policies, 5) 3:00 PM - Meet with your manager."
+  
+  utter_team_introduction:
+    - text: "Let me introduce you to your team members: {team_information}. Your direct manager is {manager}."
+  
+  utter_schedule_team_meeting:
+    - text: "I've scheduled a team introduction meeting for you on your calendar."
+  
+  utter_training_schedule:
+    - text: "Here are the training sessions you need to complete: {required_trainings}. When would you prefer to schedule these?"
+  
+  utter_policy_overview:
+    - text: "Here are the key policies you need to review: {policy_list}. Do you have any questions about these policies?"
+  
+  utter_onboarding_congratulations:
+    - text: "Congratulations! You've successfully completed your onboarding process. You're now all set up and ready to go!"
+  
+  utter_introduce_regular_services:
+    - text: "Now that you're fully onboarded, you can use my services for various HR needs like leave management, payroll inquiries, benefits information, and more."
+  
+  utter_task_update_confirmation:
+    - text: "Great! I've marked the task as completed. Your onboarding progress is now {onboarding_progress_percentage}%."
+  
+  # Existing employee specific responses
+  utter_welcome_existing_employee:
+    - text: "Welcome back to HR Connect, {user_name}! How can I assist you today?"
+  
+  utter_service_menu:
+    - text: "Here are the HR services I can help you with: Leave Management, Payroll Inquiries, Benefits Information, Performance Reviews, Career Development, Expense Submission, Document Requests. What would you like assistance with?"
+  
+  # Leave management responses
+  utter_ask_leave_action:
+    - text: "What would you like to do regarding your leave?"
+      buttons:
+        - title: Check Balance
+          payload: "check_balance"
+        - title: Request Leave
+          payload: "request"
+        - title: Cancel Leave
+          payload: "cancel"
+        - title: Check Status
+          payload: "status"
+  
+  utter_ask_leave_type:
+    - text: "What type of leave would you like to request?"
+      metadata:
+        rephrase: True
+        template: jinja
+      buttons:
+        - title: Annual
+          payload: "annual"
+        - title: Sick
+          payload: "sick"
+        - title: Personal
+          payload: "personal"
+        - title: Other
+          payload: "other"
+  
+  utter_ask_leave_start_date:
+    - text: "What is the first day of your leave? (Please use YYYY-MM-DD format)"
+
+  utter_ask_leave_end_date:
+    - text: "What is the last day of your leave? (Please use YYYY-MM-DD format)"
+  
+  utter_ask_leave_reason:
+    - text: "Could you briefly describe the reason for your leave request?"
+  
+  utter_leave_confirmed:
+    - text: "I've submitted your {leave_type} leave request from {leave_start_date} to {leave_end_date}. Your manager ({manager}) will be notified for approval."
+  
+  utter_leave_cancellation_confirmation:
+    - text: "Your leave request from {leave_to_cancel} has been successfully cancelled."
+  
+  utter_leave_status:
+    - text: "The status of your leave request is: {leave_status}"
+  
+  # Document responses
+  utter_ask_document_type:
+    - text: "What type of document would you like to upload? (ID proof, Address proof, Educational certificates, etc.)"
+  
+  utter_document_upload_instructions:
+    - text: "To upload your {document_type}, please use the secure document portal. Select '{document_type}' from the dropdown, choose your file (PDF, JPG, PNG; max 5MB), and click 'Upload'."
+  
+  utter_document_upload_confirmation:
+    - text: "Your {document_type} has been successfully uploaded and securely stored."
+  
+  utter_document_submission_instructions:
+    - text: "Please submit the following required documents before your first day: {pending_documents}"
+  
+  utter_document_request_confirmation:
+    - text: "Your request for {requested_document_type} has been submitted. You'll receive it within 2 business days."
+  
+  # Onboarding responses
+  utter_onboarding_welcome:
+    - text: "Welcome to TechCorp, {user_name}! I'm here to help you with your onboarding process."
+  
+  utter_onboarding_checklist:
+    - text: "Here's your personalized onboarding checklist: {onboarding_progress}. Your overall progress is {onboarding_progress_percentage}%. What would you like help with first?"
+
+  utter_onboarding_next_task:
+    - text: "Your next task is: {onboarding_next_task}. Would you like assistance with this task?"
+  
+  # IT setup responses
+  utter_it_setup_instructions:
+    - text: "For IT setup, you'll need to: 1) Configure your company email, 2) Install VPN software, 3) Set up multi-factor authentication. Which would you like help with?"
+  
+  utter_email_setup:
+    - text: "To set up your email: 1) Visit portal.techcorp.com, 2) Use your employee ID ({employee_id}) as your username and the temporary password from your welcome email, 3) Follow the prompts to create a permanent password."
+  
+  # Benefits responses
+  utter_benefits_overview:
+    - text: "As a full-time employee, you're eligible for: 1) Health insurance (medical, dental, vision), 2) 401(k) with 4% company match, 3) Life insurance, 4) Wellness program. Which benefit would you like to know more about?"
+  
+  # Expense responses
+  utter_expense_submission_instructions:
+    - text: "For expense claims: 1) Use the TechCorp Expense app, 2) Take photos of receipts, 3) Enter expense details and category, 4) Submit for approval. Expenses must be submitted within 30 days."
+  
+  utter_ask_expense_details:
+    - text: "Please provide the expense amount, category, date, and a brief description."
+  
+  utter_ask_expense_amount:
+    - text: "What is the amount of the expense?"
+
+  utter_ask_expense_category:
+    - text: "What category does this expense fall under?"
+
+  utter_ask_expense_date:
+    - text: "When was this expense incurred? (Please use YYYY-MM-DD format)"
+
+  utter_ask_expense_description:
+    - text: "Please provide a brief description of the expense."
+  
+  # Performance review responses
+  utter_ask_review_action:
+    - text: "What would you like to do regarding your performance review?"
+      buttons:
+        - title: View Feedback
+          payload: "view_feedback"
+        - title: Submit Self-Assessment
+          payload: "submit_self_assessment"
+        - title: Schedule Review
+          payload: "schedule_review"
+  
+  # Career development responses
+  utter_ask_career_action:
+    - text: "What career development activity are you interested in?"
+      buttons:
+        - title: Training
+          payload: "training"
+        - title: Mentorship
+          payload: "mentorship"
+        - title: Internal Transfer
+          payload: "internal_transfer"
+        - title: Promotion
+          payload: "promotion"
+  
+  # Payroll responses
+  utter_ask_payroll_inquiry_type:
+    - text: "What type of payroll information do you need?"
+      buttons:
+        - title: Payslip
+          payload: "payslip"
+        - title: Tax Documents
+          payload: "tax"
+        - title: Salary Details
+          payload: "salary"
+  
+  # Job search responses
+  utter_ask_job_title:
+    - text: "What job title or role are you interested in?"
+
+  utter_ask_job_location:
+    - text: "What is your preferred job location?"
+
+  utter_ask_job_department:
+    - text: "Which department would you like to work in?"
+  
+  # Emergency responses
+  utter_emergency_confirmation:
+    - text: "I understand this is an urgent matter. Your request has been prioritized and the HR team has been notified."
+  
+  # Feedback responses
+  utter_feedback_thank_you:
+    - text: "Thank you for your feedback! We appreciate your input and will use it to improve our services."
+  
+  # Policy responses
+  utter_policy_response:
+    - text: "According to our policy: {policy_answer}"
+
+  utter_invalid_date_format:
+    - text: "Please provide the date in YYYY-MM-DD format."
+  
+  utter_end_date_before_start_date:
+    - text: "The end date cannot be before the start date."
+  
+  # Fallback response with rephrase
+  utter_free_chitchat_response:
+    - text: "placeholder"
+      metadata:
+        rephrase: True
+        rephrase_prompt: |
+          The following is a conversation with an HR Connect Assistant.
+          The assistant can help employees with HR-related queries and tasks, such as policy questions, leave management, onboarding, benefits, and IT setup.
+          The assistant is helpful, professional, and friendly.
+          The user is making small talk, and the assistant should respond appropriately.
+          Context / previous conversation with the user:
+          {{history}}
+          {{current_input}}
+          Suggested AI Response:
+
+actions:
+  # Core system actions
+  - action_identify_user_type
+  - action_session_start
+  - action_greet_user
+  
+  # Leave management actions
+  - action_get_leave_balance
+  - action_submit_leave_request
+  - action_get_pending_leaves
+  - action_cancel_leave
+  - action_get_leave_status
+  
+  # Document actions
+  - action_verify_documents
+  - action_check_pending_documents
+  - action_process_document_request
+  
+  # Onboarding actions
+  - action_get_onboarding_status
+  - action_update_onboarding_task
+  - action_assign_buddy
+  - action_notify_team
+  - action_get_team_information
+  - action_get_required_trainings
+  - action_schedule_trainings
+  - action_get_policy_list
+  - action_answer_policy_questions
+  - action_verify_onboarding_completion
+  - action_update_employee_status
+  
+  # Benefits and payroll actions
+  - action_get_benefits_information
+  - action_get_payslip
+  - action_get_policy_information
+  
+  # Career and performance actions
+  - action_get_review_status
+  - action_get_career_path
+  
+  # Expense actions
+  - action_submit_expense
+  
+  # Job search actions
+  - action_search_jobs
+  
+  # IT support actions
+  - action_it_support
+  
+  # Emergency and feedback actions
+  - action_prioritize_request
+  - action_notify_hr_team
+  - action_schedule_followup
+  - action_record_feedback
